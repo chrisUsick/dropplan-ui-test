@@ -15,6 +15,9 @@ based of of demo: https://polymerelements.github.io/app-layout/templates/landing
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="shared-styles.html">
 <link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout.html">
 <dom-module id="page-search">
 
   <template>
@@ -24,18 +27,40 @@ based of of demo: https://polymerelements.github.io/app-layout/templates/landing
         display: block;
         padding: 10px;
       }
+
+      .contentContainer {
+        @apply(--layout-horizontal);
+        @apply(--layout-wrap);
+        @apply(--layout-center-justified);
+      }
+
+      paper-card {
+        display:block;
+        @apply(--layout-flex-1);
+         @apply(--layout-self-start);
+        margin: 1em;
+      }
+
+      @media all and (min-width: 480px) and (max-width: 1920px) {
+        paper-card {
+          max-width: 350px;
+          margin: 2em;
+        }
+      }
     </style>
 
     <div class="contentContainer">
-      <header>
-        <h2>Main message</h2>
-        <p>
-          subtitle
-          <paper-icon-button icon="print"></paper-icon-button>
-          <iron-icon prefix></iron-icon>
-        </p>
-
-      </header>
+      <template is="dom-repeat" items="{{plans}}">
+        <paper-card heading="{{item.name}}" image="https://dummyimage.com/640x480/aaa/fff&text=blah">
+          <div class="card-content">
+            {{item.description}}
+          </div>
+          <div class="card-actions">
+            <paper-button>Learn More</paper-button>
+            <paper-button>Purchase</paper-button>
+          </div>
+        </paper-card>
+      </template>
     </div>
 
   </template>
@@ -46,11 +71,26 @@ based of of demo: https://polymerelements.github.io/app-layout/templates/landing
 
       is: 'page-search',
       properties: {
-        type: Object,
-        notify: true
+        search: {
+          type: String,
+          notify: true
+        },
+        plans: {
+          type:Array,
+          notify:true,
+          value: function(){return []}
+        }
       },
       ready: function() {
-        console.log('search', this.data);
+        this.set('plans', [
+          {
+            name: 'Tiny house on wheels', description:'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam vulputate erat vitae lacus tristique cursus. In hac habitasse platea dictumst. Morbi semper iaculis rutrum. Mauris facilisis odio a nisl auctor, rutrum elementum enim ullamcorper. Fusce vel velit fringilla, finibus lectus in, bibendum risus. Suspendisse diam diam, maximus dictum semper id, lobortis quis turpis. Mauris malesuada ultricies orci quis rutrum. Sed quis condimentum odio. Phasellus finibus tincidunt nisi, at fringilla dolor porttitor sed.'
+          },{
+            name: 'Tiny house on wheels', description:'L ultricies orci quis rutrum. Sed quis condimentum odio. Phasellus finibus tincidunt nisi, at fringilla dolor porttitor sed.'
+          },{
+            name: 'Tiny house on wheels', description:'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam vulputate erat vitae lacus tristique cursus. In hac habitasse platea dictumst. Morbi semper iaculis rutrum. Mauris facilisis odio a nisl auctor, rutrum elementum enim ullamcorper. Fusce vel velit fringilla, finibus lectus in, bibendum risus. Suspendisse diam diam, maximus dictum semper id, lobortis quis turpis. Mauris malesuada ultricies orci quis rutrum. Sed quis condimentum odio. Phasellus finibus tincidunt nisi, at fringilla dolor porttitor sed. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam vulputate erat vitae lacus tristique cursus. In hac habitasse platea dictumst. Morbi semper iaculis rutrum. Mauris facilisis odio a nisl auctor, rutrum elementum enim ullamcorper. Fusce vel velit fringilla, finibus lectus in, bibendum risus. Suspendisse diam diam, maximus dictum semper id, lobortis quis turpis. Mauris malesuada ultricies orci quis rutrum. Sed quis condimentum odio. Phasellus f'
+          },
+        ])
       }
 
     });

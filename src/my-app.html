@@ -92,7 +92,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         <iron-pages selected="[[page]]" attr-for-selected="name" fallback-selection="404" role="main">
           <page-home name="home"></page-home>
-          <page-search id="pageSearch" name="search"></page-search>
+          <page-search id="pageSearch" name="search" search="{{queryParams.search}}"></page-search>
 
           <page-404 name="404"></page-404>
         </iron-pages>
@@ -122,20 +122,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           type: String,
           notify: true
         }
-
       },
 
       observers: [
         '_routePageChanged(routeData.page)',
-        '_log(routeData)',
         '_searchChanged(queryParams.search)'
       ],
 
       _routePageChanged: function(page) {
         this.page = page || 'home';
-      },
-      _log: function(data) {
-        this.$.pageSearch.data = this.$.location.__data__.queryParams;
       },
 
       _pageChanged: function(page) {
@@ -153,9 +148,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           this.set('route.path', '/search');
 
         }
-      },
-      setSearchPageData: function(data) {
-        // this.$.pageSearch.data = this.$.location.__data__.queryParams;
       }
 
     });
