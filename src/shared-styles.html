@@ -9,6 +9,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout.html">
 
 <!-- shared styles for all views -->
 <dom-module id="shared-styles">
@@ -37,6 +38,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         font-size: 22px;
         margin: 16px 0;
         color: #212121;
+      }
+      paper-card {
+        display:block;
+        @apply(--layout-flex);
+        @apply(--layout-center);
+        margin: 1em;
       }
     </style>
   </template>

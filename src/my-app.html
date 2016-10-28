@@ -69,31 +69,53 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         padding-right: 1em;
       }
 
+      .add-space {
+        @apply(--layout-flex);
+      }
 
     </style>
 
-    <app-location id="location" route="{{route}}" query-params="{{queryParams}}"></app-location></app-location>
+    <app-location id="location" route="{{route}}" query-params="{{queryParams}}"></app-location>
+    <app-route
+        route="{{route}}"
+        pattern="/plan/:id"
+        data="{{planRouteData}}"></app-route>
+    <app-route
+        route="{{route}}"
+        pattern="/wishlist/:id/customize"
+        data="{{wishlistCustomizationData}}"
+        active="{{wishlistCustomizeActive}}"
+        ></app-route>
     <app-route
         route="{{route}}"
         pattern="/:page"
         data="{{routeData}}"
         tail="{{subroute}}"></app-route>
 
+
+
     <app-header-layout fullbleed has-scrolling-region>
 
         <app-header condenses reveals fixed effects="waterfall">
           <app-toolbar>
             <div class="title">My App</div>
-            <paper-input label="Search" class="" no-label-float type="search" value="{{queryParams.search}}">
+            <paper-input label="Search" class="main-title" no-label-float type="search" value="{{queryParams.search}}">
               <iron-icon icon="search" prefix></iron-icon>
             </paper-input>
+            <div class="add-space">
+            </div>
+            <a href="/wishlist">
+              <paper-icon-button icon="card-giftcard" class="align-right"></paper-icon-button>
+            </a>
           </app-toolbar>
         </app-header>
 
         <iron-pages selected="[[page]]" attr-for-selected="name" fallback-selection="404" role="main">
           <page-home name="home"></page-home>
-          <page-search id="pageSearch" name="search" search="{{queryParams.search}}"></page-search>
-
+          <page-search id="pageSearch" name="search" route="{{route}}" search="{{queryParams.search}}"></page-search>
+          <page-plan name="plan" id="pagePlan" product-id="{{planRouteData.id}}"></page-plan>
+          <page-wishlist name="wishlist" id="pageWishlist"></page-wishlist>
+          <page-wishlist-customize name="wishlist-customize" id="pageWishlistCustomize"></page-wishlist-customize>
           <page-404 name="404"></page-404>
         </iron-pages>
 
@@ -130,6 +152,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       ],
 
       _routePageChanged: function(page) {
+        // map of route data object to page name
+        var routeMap = {
+          'wishlistCustomizeActive': 'wishlist-customize'
+        };
+        for (var dataProp in routeMap) {
+          var routeActive = this.get(dataProp);
+          if (routeActive) {
+            page = routeMap[dataProp];
+          }
+        }
         this.page = page || 'home';
       },
 
@@ -146,9 +178,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       _searchChanged: function(data) {
         if (this.route && this.route.path && this.queryParams.search && this.queryParams.search.trim() != '' && !this.$.location.path.match(/search/)) {
           this.set('route.path', '/search');
-
         }
       }
+
 
     });
 
