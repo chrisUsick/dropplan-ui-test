@@ -106,8 +106,22 @@
             </paper-listbox>
 
           </div>
+          <div class="orders">
+            <h1><a href="/admin/orders">New Orders</a></h1>
+            <template is="dom-repeat" items="{{orders}}">
+              <paper-item>
+                <paper-item-body>
+                  <div class="">
+                    {{item.product.name}}
+                  </div>
+                  <div secondary>
+                    {{item.dateCreated}}
+                  </div>
+                </paper-item-body>
+              </paper-item>
+            </template>
+          </div>
         </div>
-
       </paper-card>
     </div>
 
@@ -148,6 +162,12 @@
           {
             from: {displayName: 'Tom rum'}, content: 'elit. Nullam vulputate erat vitae lacus tristique c',
             product: {name: 'Tiny House on Wheels'}
+          }
+        ]);
+
+        this.set('orders', [
+          {
+            product: {name: 'Tiny House on Wheels'}, dateCreated: '2016-11-09T16:52:09.770Z'
           }
         ])
       },
