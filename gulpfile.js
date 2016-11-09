@@ -48,6 +48,7 @@ global.config = {
 const clean = require('./gulp-tasks/clean.js');
 const images = require('./gulp-tasks/images.js');
 const project = require('./gulp-tasks/project.js');
+const newPage = require('./gulp-tasks/new-page.js');
 
 // The source task will split all of your source files into one
 // big ReadableStream. Source files are those in src/** as well as anything
@@ -80,3 +81,8 @@ gulp.task('default', gulp.series([
   project.merge(source, dependencies),
   project.serviceWorker
 ]));
+
+gulp.task('newPage', () => {
+  console.log(newPage);
+  return newPage();
+});

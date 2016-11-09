@@ -3,30 +3,50 @@
 <link rel="import" href="../bower_components/paper-card/paper-card.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="dt-customization-edit.html">
+<link rel="import" href="dt-message.html">
+<link rel="import" href="dt-write-message.html">
 <dom-module id="page-wishlist-customize">
 
   <template>
 
     <style include="shared-styles">
       :host {
-        /*display: block;*/
         padding: 10px;
-        /*@apply(--layout-horizontal);
-        @apply(--layout-wrap);
-        @apply(--layout-center-justified);*/
+      }
+      .messages {
+        margin-left: 20px;
+      }
+      .card-header {
+        @apply(--layout-horizontal);
+        @apply(--layout-justified);
+        @apply(--layout-center);
+      }
+      .buttonContainer {
+        display: inline;
       }
     </style>
-    <paper-card heading="{{lineItem.name}}">
+    <paper-card>
+      <div class="card-header">
+        <h2>{{lineItem.name}}</h2>
+        <div class="buttonContainer">
+          <paper-button raised>Purchase</paper-button>
+        </div>
+      </div>
       <div class="card-content">
         <p>
           {{lineItem.description}}
         </p>
         <h3>Customizations</h3>
-        <template is="dom-repeat" items="{{lineItems.customizations}}">
+        <template is="dom-repeat" items="{{lineItem.customizations}}">
           <dt-customization-edit customization="{{item}}"></dt-customization-edit>
         </template>
-        <div>
-          <h3>Messages</h3>
+        <h3>Messages</h3>
+        <div class="messages">
+          <template is="dom-repeat" items="{{lineItem.messages}}">
+            <dt-message message="{{item}}"></dt-message>
+          </template>
+          <dt-write-message value="{{newMessageContent}}"></dt-write-message>
         </div>
       </div>
     </paper-card>
@@ -37,21 +57,33 @@
       properties: {
         lineItem: {
           type: Object,
-          notify: true
+          notify: true,
         },
         lineItemId: {
           type:Number
-        }
+        },
+        newMessageContent: String
       },
+      observers: [
+        '_lineItemChanged(lineItem.*)'
+      ],
       ready: function() {
         this.set('lineItem', {
             id: 1,
             name: 'Tiny house on wheels', description:'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam vulputate erat vitae lacus tristique cursus. In hac habitasse platea dictumst. Morbi semper iaculis rutrum. Mauris facilisis odio a nisl auctor, rutrum elementum enim ullamcorper. Fusce vel velit fringilla, finibus lectus in, bibendum risus. Suspendisse diam diam, maximus dictum semper id, lobortis quis turpis. Mauris malesuada ultricies orci quis rutrum. Sed quis condimentum odio. Phasellus finibus tincidunt nisi, at fringilla dolor porttitor sed.',
             customizations: [
-              {title: 'Customization 1', description: 'Nullam vulputate erat vitae lacus tristique cursus. In hac habitasse platea dictumst. Morbi s'},
-              {title: 'Customization 2', description: 'Nullam vulputate erat vitae lacus tristique cursus. In hac habitasse platea dictumst. Morbi s', selected: true}
+              {title: 'Customization 1', price: 51.00, description: 'Nullam vulputate erat vitae lacus tristique cursus. In hac habitasse platea dictumst. Morbi s'},
+              {title: 'Customization 2', price: 62.00, description: 'Nullam vulputate erat vitae lacus tristique cursus. In hac habitasse platea dictumst. Morbi s', selected: true}
+            ],
+            messages: [
+              {from: {displayName: 'Chris Usick'}, content: 'Is this product good???'},
+              {from: {displayName: 'The Creator'}, content: 'Yup, it is decent...'}
             ]
           })
+      },
+      _lineItemChanged: function(changeRecord) {
+        console.log(changeRecord);
       }
     })
   </script>
+</dom-module>
