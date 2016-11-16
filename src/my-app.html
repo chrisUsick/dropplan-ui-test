@@ -88,10 +88,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         ></app-route>
     <app-route
         route="{{route}}"
+        pattern="/admin/product/new"
+        data="{{adminProductNewData}}"
+        active="{{adminProductNewActive}}"
+        ></app-route>
+    <app-route
+        route="{{route}}"
         pattern="/admin/product/:id"
         data="{{adminProductData}}"
         active="{{adminProductActive}}"
         ></app-route>
+
     <app-route
         route="{{route}}"
         pattern="/admin/orders/:id"
@@ -136,6 +143,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <page-wishlist-customize name="wishlist-customize" id="pageWishlistCustomize"></page-wishlist-customize>
           <page-admin name="admin" id="pageAdmin"></page-admin>
           <page-admin-product name="admin-product" id="pageAdminProduct" data="adminProductData"></page-admin-product>
+          <page-admin-product-new name="admin-product-new" id="pageAdminProductNew"></page-admin-product-new>
           <page-admin-order name="admin-order" id="pageAdminOrder" data="adminOrderData"></page-admin-order>
           <page-admin-orders name="admin-orders" id="pageAdminOrders" data="adminOrdersData"></page-admin-orders>
           <page-404 name="404"></page-404>
@@ -178,7 +186,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         var routeMap = {
           'wishlistCustomizeActive': 'wishlist-customize',
           'adminProductActive': 'admin-product',
-          'adminOrdersActive': 'admin-orders'
+          'adminOrdersActive': 'admin-orders',
+          'adminProductNewActive': 'admin-product-new'
         };
         for (var dataProp in routeMap) {
           var routeActive = this.get(dataProp);
